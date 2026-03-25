@@ -1,14 +1,12 @@
-version: "3.9"
-
 services:
 
   app:
-    build: .
+    build: .   # Build locally from Dockerfile in current folder
     container_name: calculator_app
     ports:
       - "8000:8000"
-    volumes:
-      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://calc:calc@postgres:5432/calculator
     depends_on:
       - postgres
 
