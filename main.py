@@ -1,58 +1,32 @@
+# main.py
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-import math
-
 from database import engine, SessionLocal
 from models import Base, Calculation
-
+from calculator import evaluate_expression
 
 app = FastAPI()
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# create tables automatically
 Base.metadata.create_all(bind=engine)
-
-SAFE_MATH = {
-    "pi": math.pi,
-    "e": math.e,
-    "sin": lambda x: math.sin(math.radians(x)),
-    "cos": lambda x: math.cos(math.radians(x)),
-    "tan": lambda x: math.tan(math.radians(x)),
-    "sqrt": math.sqrt,
-    "log": math.log
-}
-
 
 class CalcRequest(BaseModel):
     expression: str
 
-
 @app.post("/calculate")
 def calculate(req: CalcRequest):
-
-    try:
-
-        result = eval(req.expression, {"__builtins__": {}}, SAFE_MATH)
-
+    result = evaluate_expression(req.expression)
+    
+    # Save to DB only if valid number
+    if not isinstance(result, str) or not result.startswith("error"):
         db = SessionLocal()
-
-        calc = Calculation(
-            expression=req.expression,
-            result=result
-        )
-
+        calc = Calculation(expression=req.expression, result=result)
         db.add(calc)
         db.commit()
         db.close()
-
-        return {"result": result}
-
-    except Exception as e:
-        return {"error": str(e)}
-
+    
+    return {"result": result}
 
 @app.get("/", response_class=HTMLResponse)
 def home():
