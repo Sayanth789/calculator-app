@@ -100,7 +100,9 @@ calculator-app
 ├── static
 │   ├── index.html
 │   
-│
+│__ tests
+|   ├──test_calc.py
+|
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
