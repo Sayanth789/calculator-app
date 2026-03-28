@@ -97,10 +97,9 @@ calculator-app
 ├── database.py
 └── main.py
 │
-├── frontend
+├── static
 │   ├── index.html
-│   ├── script.js
-│   └── style.css
+│   
 │
 ├── Dockerfile
 ├── docker-compose.yml
