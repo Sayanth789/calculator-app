@@ -91,11 +91,11 @@ You can run the **entire stack (frontend + API + database)** with a single comma
 ```
 calculator-app
 │
-├── backend
-│   ├── main.py
-│   ├── models.py
-│   ├── database.py
-│   └── routes.py
+|
+├── calculator.py
+├── models.py
+├── database.py
+└── main.py
 │
 ├── frontend
 │   ├── index.html
