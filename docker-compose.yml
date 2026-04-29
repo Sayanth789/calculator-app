@@ -1,14 +1,17 @@
 services:
 
   app:
-    build: .   # Build locally from Dockerfile in current folder
+    build: .
     container_name: calculator_app
     ports:
       - "8000:8000"
+    extra_hosts:
+        - "host.docker.internal:host-gateway"
     environment:
       - DATABASE_URL=postgresql://calc:calc@postgres:5432/calculator
     depends_on:
       - postgres
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
 
   postgres:
     image: postgres:15
