@@ -11,23 +11,7 @@ SAFE_MATH = {
 }
 
 def evaluate_expression(expr: str):
-    """Evaluate a math expression safely using SAFE_MATH."""
     try:
         return eval(expr, {"__builtins__": {}}, SAFE_MATH)
-    except Exception as e:
-        return f"error: {str(e)}"
-    
-def evaluate_expression(expr: str):
-    """
-     Only evaluates CLEAN mathematical expressions.
-     AI must already convert natural language → expression.
-    """    
-    try:
-        # small normalization step (important).
-        expr = expr.replace("^", "**")
-
-        result = eval(expr, {"__builtins__", {}}, SAFE_MATH)
-        return result
-    
     except Exception as e:
         return f"error: {str(e)}"

@@ -39,18 +39,35 @@ def home():
 class AIRequest(BaseModel):
     text: str
 
-
 @app.post("/ai/parse")
 def ai_parse(req: AIRequest):
-    data = parse_natural_language(req.text)
+    return parse_natural_language(req.text)
 
-    if "expression" in data:
-        expr = data["expression"]   # string only
+@app.post("/smart-calc")
+def smart_calc(req: AIRequest):
+
+    parsed = parse_natural_language(req.text)
+
+    mode = parsed.get("mode", "solve")
+
+    if mode == "solve":
+        expr = parsed.get("expression", "")
+
+        if not expr:
+            return {"error": "No expression returned"}
+
         result = evaluate_expression(expr)
 
         return {
+            "input": req.text,
             "expression": expr,
+            "label": parsed.get("label", "Answer"),
             "result": result
         }
 
-    return data
+    elif mode == "clarify":
+        return {
+            "ask": parsed.get("question", "Please clarify")
+        }
+
+    return {"error": "Unable to process"}
