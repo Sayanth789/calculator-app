@@ -1,5 +1,18 @@
 # 🧮 Full Stack Scientific Calculator
 
+# AI Powered Input parsing 🤖
+This calculator goes beyond traditional input methods by integrating an AI
+based natural laguage parser. Instead of requiring strict mathematical expressions , users can enter queries in plain English.
+
+eg 
+```
+* income 30000 minus 12000 → 30000 - 12000
+* what is 25 percent of 200 → 0.25 * 200
+* add 45 and 10 → 45 + 10
+```
+
+
+
 A **full-stack scientific calculator application** built with **FastAPI**, **PostgreSQL**, and a **web frontend**.
 The application provides powerful scientific calculations through a clean user interface and a high-performance backend API.
 
